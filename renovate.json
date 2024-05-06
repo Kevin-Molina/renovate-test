@@ -1,5 +1,4 @@
 {
-    "enableRenovate": true,
     "baseBranches": [
         "master"
     ],

@@ -1,0 +1,31 @@
+{
+    "enableRenovate": true,
+    "baseBranches": [
+        "master"
+    ],
+    "extends": [
+        "config:recommended"
+    ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "fileMatch": [
+                "^Dockerfile$"
+            ],
+            "matchStrings": [
+                "#\\s*renovate:\\s*(datasource=(?<datasource>.*?) )?depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=\"(?<currentValue>.*)\"\\s"
+            ],
+            "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+            "datasourceTemplate": "custom.wolfi"
+        }
+    ],
+    "customDatasources": {
+        "wolfi": {
+            "defaultRegistryUrlTemplate": "https://packages.wolfi.dev/os/x86_64/APKINDEX.json",
+            "format": "json",
+            "transformTemplates": [
+                "{ \"releases\": $.Packages[Name=\"tzdata\"].{\"version\": Version }}"
+            ]
+        }
+    }
+}
